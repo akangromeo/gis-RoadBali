@@ -3,6 +3,18 @@ import { useMap, FeatureGroup } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import { encode } from "polyline";
 import L from "leaflet";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import ReactDOMServer from "react-dom/server";
+
+const pinpointIconHtml = ReactDOMServer.renderToString(
+  <FaMapMarkerAlt style={{ color: "red", fontSize: "16px" }} />
+);
+
+const pinpointIcon = new L.DivIcon({
+  html: pinpointIconHtml,
+  iconSize: [16, 16], // Ukuran ikon
+  className: "leaflet-pinpoint-icon", // Kelas CSS khusus jika diperlukan
+});
 
 const DrawTools = ({ setPolyline, setModalIsOpen, setLengthRoad }) => {
   const map = useMap();
@@ -48,7 +60,6 @@ const DrawTools = ({ setPolyline, setModalIsOpen, setLengthRoad }) => {
     }
   };
 
-  // Fungsi untuk menghitung panjang polyline
   const calculateLength = (latLngs) => {
     let length = 0;
     for (let i = 0; i < latLngs.length - 1; i++) {
@@ -56,7 +67,7 @@ const DrawTools = ({ setPolyline, setModalIsOpen, setLengthRoad }) => {
       const latlng2 = latLngs[i + 1];
       length += latlng1.distanceTo(latlng2);
     }
-    return length / 1000; // Konversi meter ke kilometer
+    return length / 1000;
   };
 
   // Event handler ketika layer dihapus
@@ -83,10 +94,7 @@ const DrawTools = ({ setPolyline, setModalIsOpen, setLengthRoad }) => {
         onDrawStart={_onDrawStart}
         draw={{
           polyline: {
-            icon: new L.DivIcon({
-              iconSize: new L.Point(8, 8),
-              className: "leaflet-div-icon leaflet-editing-icon",
-            }),
+            icon: pinpointIcon,
             shapeOptions: {
               guidelineDistance: 10,
               color: "blue",

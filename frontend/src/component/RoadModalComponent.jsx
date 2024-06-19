@@ -245,7 +245,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
         <div className="grid grid-cols-3 gap-4">
           {/* Provinsi */}
           <div className="mb-4">
-            <Label htmlFor="province" value="Provinsi" />
+            <Label htmlFor="province" value="Province" />
             <Select
               id="province"
               value={selectedProvince.id}
@@ -256,7 +256,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
                 });
               }}
             >
-              <option value="">Pilih Provinsi</option>
+              <option value="">Choose Province</option>
               {provinces.map((province) => (
                 <option key={province.id} value={province.id}>
                   {province.name}
@@ -266,7 +266,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Kabupaten */}
           <div className="mb-4">
-            <Label htmlFor="district" value="Kabupaten" />
+            <Label htmlFor="district" value="District" />
             <Select
               id="district"
               value={selectedDistrict.id}
@@ -277,7 +277,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
                 });
               }}
             >
-              <option value="">Pilih Kabupaten</option>
+              <option value="">Choose District</option>
               {districts.map((district) => (
                 <option key={district.id} value={district.id}>
                   {district.name}
@@ -287,7 +287,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Kecamatan */}
           <div className="mb-4">
-            <Label htmlFor="sub-district" value="Kecamatan" />
+            <Label htmlFor="sub-district" value="Subdistrict" />
             <Select
               id="sub-district"
               value={selectedSubDistrict.id}
@@ -298,7 +298,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
                 });
               }}
             >
-              <option value="">Pilih Kecamatan</option>
+              <option value="">Choose Subdistrict</option>
               {subDistricts.map((subDistrict) => (
                 <option key={subDistrict.id} value={subDistrict.id}>
                   {subDistrict.name}
@@ -308,7 +308,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Desa */}
           <div className="mb-4">
-            <Label htmlFor="desa_id" value="Desa ID" />
+            <Label htmlFor="desa_id" value="Village" />
             <AsyncSelect
               cacheOptions
               loadOptions={(inputValue, callback) => {
@@ -327,56 +327,56 @@ const RoadModalComponent = ({ formData, onClose }) => {
               value={desaOptions.find(
                 (option) => option.value === localFormData.desa_id
               )}
-              placeholder="Pilih Desa ID"
+              placeholder="Choose Village"
             />
           </div>
           {/* Kode Ruas */}
           <div className="mb-4">
-            <Label htmlFor="kode_ruas" value="Kode Ruas" />
+            <Label htmlFor="kode_ruas" value="Road Code" />
             <TextInput
               id="kode_ruas"
               name="kode_ruas"
               value={localFormData.kode_ruas}
               onChange={handleChange}
-              placeholder="Kode Ruas"
+              placeholder="Example : 1"
             />
           </div>
           {/* Nama Ruas */}
           <div className="mb-4">
-            <Label htmlFor="nama_ruas" value="Nama Ruas" />
+            <Label htmlFor="nama_ruas" value="Road Name" />
             <TextInput
               id="nama_ruas"
               name="nama_ruas"
               value={localFormData.nama_ruas}
               onChange={handleChange}
-              placeholder="Nama Ruas"
+              placeholder="example : Jalan Raya x"
             />
           </div>
           {/* Panjang */}
           <div className="mb-4">
-            <Label htmlFor="panjang" value="Panjang" />
+            <Label htmlFor="panjang" value="Length" />
             <TextInput
               id="panjang"
               name="panjang"
               value={localFormData.panjang}
               onChange={handleChange}
-              placeholder="Panjang"
+              placeholder="Auto"
             />
           </div>
           {/* Lebar */}
           <div className="mb-4">
-            <Label htmlFor="lebar" value="Lebar" />
+            <Label htmlFor="lebar" value="Wide" />
             <TextInput
               id="lebar"
               name="lebar"
               value={localFormData.lebar}
               onChange={handleChange}
-              placeholder="Lebar"
+              placeholder="example : 2"
             />
           </div>
           {/* Eksisting ID */}
           <div className="mb-4">
-            <Label htmlFor="eksisting_id" value="Eksisting ID" />
+            <Label htmlFor="eksisting_id" value="Road Material" />
             <Select
               id="eksisting_id"
               value={localFormData.eksisting_id}
@@ -387,7 +387,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
                 });
               }}
             >
-              <option value="">Pilih Eksisting ID</option>
+              <option value="">Choose Road Material</option>
               {eksistingOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -397,7 +397,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Kondisi ID */}
           <div className="mb-4">
-            <Label htmlFor="kondisi_id" value="Kondisi ID" />
+            <Label htmlFor="kondisi_id" value="Condition" />
             <Select
               id="kondisi_id"
               value={localFormData.kondisi_id}
@@ -408,7 +408,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
                 });
               }}
             >
-              <option value="">Pilih Kondisi ID</option>
+              <option value="">Choose Condition</option>
               {kondisiOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -418,7 +418,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Jenis Jalan ID */}
           <div className="mb-4">
-            <Label htmlFor="jenisjalan_id" value="Jenis Jalan ID" />
+            <Label htmlFor="jenisjalan_id" value="Road Type" />
             <Select
               id="jenisjalan_id"
               value={localFormData.jenisjalan_id}
@@ -429,7 +429,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
                 });
               }}
             >
-              <option value="">Pilih Jenis Jalan ID</option>
+              <option value="">Choose Road Type</option>
               {jenisJalanOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -439,13 +439,13 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Keterangan */}
           <div className="col-span-2 mb-4">
-            <Label htmlFor="keterangan" value="Keterangan" />
+            <Label htmlFor="keterangan" value="Information" />
             <TextInput
               id="keterangan"
               name="keterangan"
               value={localFormData.keterangan}
               onChange={handleChange}
-              placeholder="Keterangan"
+              placeholder="Example : Frequently Used"
             />
           </div>
           <input type="hidden" name="paths" value={localFormData.paths} />

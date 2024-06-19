@@ -66,6 +66,13 @@
   z-index: 5;
 }
 
+.information-box {
+  position: fixed;
+  top: 80px;
+  right: 10px;
+  z-index: 5;
+}
+
 .button-over-map-left {
   position: fixed;
   bottom: 30px;

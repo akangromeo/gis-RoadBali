@@ -29,21 +29,11 @@ const EditRoad = () => {
         if (data.ruasjalan.paths) {
           const decodedPath = decodePolyline(data.ruasjalan.paths);
           setPolyline(decodedPath);
-          calculateRoadLength(decodedPath);
+          calculateLength(decodedPath);
         }
       })
       .catch((error) => console.error("Error fetching road data:", error));
   }, [roadId]);
-
-  const calculateRoadLength = (path) => {
-    if (mapRef.current) {
-      let length = 0;
-      for (let i = 1; i < path.length; i++) {
-        length += mapRef.current.distance(path[i - 1], path[i]);
-      }
-      setLengthRoad((length / 1000).toFixed(2));
-    }
-  };
 
   const handleFormSubmit = (updatedData) => {
     const token = localStorage.getItem("token");
@@ -87,14 +77,36 @@ const EditRoad = () => {
         const editedLatLngs = layer
           .getLatLngs()
           .map((latLng) => [latLng.lat, latLng.lng]);
+
+        // Update polyline state
         setPolyline(editedLatLngs);
+
+        // Calculate road length for edited polyline
+        const lengthNew = calculateLength(editedLatLngs);
+        console.log(lengthNew);
+        // Encode edited polyline
+        const encodedPolyline = encode(editedLatLngs);
+        console.log(encodedPolyline);
+
+        // Update roadData with edited path and calculated length
         setRoadData((prevData) => ({
           ...prevData,
-          paths: encode(editedLatLngs),
+          panjang: lengthNew,
+          paths: encodedPolyline,
         }));
-        calculateRoadLength(editedLatLngs);
       }
     });
+  };
+
+  const calculateLength = (latLngs) => {
+    let length = 0;
+    for (let i = 0; i < latLngs.length - 1; i++) {
+      // Convert each coordinate to L.LatLng object
+      const latlng1 = L.latLng(latLngs[i][0], latLngs[i][1]);
+      const latlng2 = L.latLng(latLngs[i + 1][0], latLngs[i + 1][1]);
+      length += latlng1.distanceTo(latlng2);
+    }
+    return (length / 1000).toFixed(2); // Return length in kilometers, formatted to 2 decimal places
   };
 
   if (!roadData) {
@@ -152,7 +164,6 @@ const EditRoad = () => {
           }}
           onSubmit={handleFormSubmit}
         />
-        <div>Road Length: {lengthRoad} km</div>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-// LoginComponent.jsx
 import React, { useState } from "react";
 
 export default function LoginComponent({ setLoggedIn, onClose }) {
@@ -24,10 +23,11 @@ export default function LoginComponent({ setLoggedIn, onClose }) {
 
       // Periksa keberhasilan otentikasi dari respons
       if (data.meta && data.meta.code === 200) {
-        setLoggedIn(true);
         localStorage.setItem("token", data.meta.token);
-        console.log(data.meta.token);
+        setLoggedIn(true);
+        window.location.reload();
         onClose();
+        console.log(data.meta.token);
       } else {
         // Jika login gagal, mungkin Anda ingin menampilkan pesan kesalahan
         console.error(

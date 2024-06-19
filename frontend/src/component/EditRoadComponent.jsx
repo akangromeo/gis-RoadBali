@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Label, TextInput, Select } from "flowbite-react";
 import AsyncSelect from "react-select/async";
 
-const EditRoadComponent = ({ data, onSubmit, onClose }) => {
+const EditRoadComponent = ({ data, onSubmit, lengthRoad }) => {
   const [formData, setFormData] = useState({
     nama_ruas: "",
     panjang: "",
@@ -131,7 +131,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           <div className="mb-5">
-            <Label htmlFor="nama_ruas" value="Nama Ruas:" />
+            <Label htmlFor="nama_ruas" value="Road Name :" />
             <TextInput
               id="nama_ruas"
               name="nama_ruas"
@@ -143,7 +143,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="panjang" value="Panjang:" />
+            <Label htmlFor="panjang" value="Length :" />
             <TextInput
               id="panjang"
               name="panjang"
@@ -156,7 +156,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="lebar" value="Lebar:" />
+            <Label htmlFor="lebar" value="Wide :" />
             <TextInput
               id="lebar"
               name="lebar"
@@ -169,7 +169,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="eksisting_id" value="Eksisting:" />
+            <Label htmlFor="eksisting_id" value="Road Material :" />
             <Select
               id="eksisting_id"
               name="eksisting_id"
@@ -179,7 +179,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
               }
               required
             >
-              <option value="">Pilih Eksisting</option>
+              <option value="">Choose Material</option>
               {eksistingOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -189,7 +189,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="kondisi_id" value="Kondisi:" />
+            <Label htmlFor="kondisi_id" value="Condition :" />
             <Select
               id="kondisi_id"
               name="kondisi_id"
@@ -199,7 +199,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
               }
               required
             >
-              <option value="">Pilih Kondisi</option>
+              <option value="">Choose Condition</option>
               {kondisiOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -209,7 +209,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="jenisjalan_id" value="Jenis Jalan:" />
+            <Label htmlFor="jenisjalan_id" value="Road Type :" />
             <Select
               id="jenisjalan_id"
               name="jenisjalan_id"
@@ -219,7 +219,7 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
               }
               required
             >
-              <option value="">Pilih Jenis Jalan</option>
+              <option value="">Choose Road Type</option>
               {jenisJalanOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -229,13 +229,13 @@ const EditRoadComponent = ({ data, onSubmit, onClose }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="keterangan" value="Keterangan:" />
+            <Label htmlFor="keterangan" value="Information :" />
             <TextInput
               id="keterangan"
               name="keterangan"
               value={formData.keterangan}
               onChange={handleChange}
-              placeholder="Keterangan"
+              placeholder="example : Frequently used"
               required
             />
           </div>
