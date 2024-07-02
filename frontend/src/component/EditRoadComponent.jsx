@@ -124,12 +124,12 @@ const EditRoadComponent = ({ data, onSubmit, lengthRoad }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full mx-auto">
       <div className="text-center font-bold mb-8">
         <h2 className="text-2xl">Edit Road</h2>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           <div className="mb-5">
             <Label htmlFor="nama_ruas" value="Road Name :" />
             <TextInput
@@ -143,7 +143,7 @@ const EditRoadComponent = ({ data, onSubmit, lengthRoad }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="panjang" value="Length :" />
+            <Label htmlFor="panjang" value="Length (Km)" />
             <TextInput
               id="panjang"
               name="panjang"
@@ -156,7 +156,7 @@ const EditRoadComponent = ({ data, onSubmit, lengthRoad }) => {
           </div>
 
           <div className="mb-5">
-            <Label htmlFor="lebar" value="Wide :" />
+            <Label htmlFor="lebar" value="Wide (M)" />
             <TextInput
               id="lebar"
               name="lebar"
@@ -240,10 +240,10 @@ const EditRoadComponent = ({ data, onSubmit, lengthRoad }) => {
             />
           </div>
         </div>
-        <div className="w-100 mt-5">
+        <div className="w-full mt-5">
           <Button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Update Road
           </Button>

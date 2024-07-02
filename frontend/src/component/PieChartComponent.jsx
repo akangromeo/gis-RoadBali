@@ -10,6 +10,9 @@ const PieChartComponent = ({ id, series, colors, labels }) => {
         chart: {
           type: "pie",
           height: 260,
+          animations: {
+            enabled: false,
+          },
         },
         plotOptions: {
           pie: {
@@ -32,6 +35,25 @@ const PieChartComponent = ({ id, series, colors, labels }) => {
         legend: {
           position: "bottom",
           fontFamily: "Inter, sans-serif",
+        },
+
+        states: {
+          normal: {
+            filter: {
+              type: "none",
+            },
+          },
+          hover: {
+            filter: {
+              type: "none",
+            },
+          },
+          active: {
+            allowMultipleDataPointsSelection: false,
+            filter: {
+              type: "none",
+            },
+          },
         },
       });
 

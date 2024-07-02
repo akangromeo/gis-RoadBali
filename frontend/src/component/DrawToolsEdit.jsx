@@ -32,6 +32,7 @@ const DrawToolsEdit = ({
         const encodedPolyline = encode(
           latLngs.map((latlng) => [latlng.lat, latlng.lng])
         );
+        console.log("Encoded Polyline:", encodedPolyline);
         const lengthRoad = calculateLength(latLngs).toFixed(2);
         setLengthRoad(lengthRoad);
         setPolyline(encodedPolyline);

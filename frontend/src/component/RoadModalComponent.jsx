@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Label, TextInput, Select } from "flowbite-react";
 import AsyncSelect from "react-select/async";
+import { useNavigate } from "react-router-dom";
 
 const RoadModalComponent = ({ formData, onClose }) => {
   const [localFormData, setLocalFormData] = useState({
@@ -24,6 +25,8 @@ const RoadModalComponent = ({ formData, onClose }) => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [subDistricts, setSubDistricts] = useState([]);
+
+  const navigate = useNavigate();
 
   const [selectedProvince, setSelectedProvince] = useState({
     id: "",
@@ -229,7 +232,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
       );
       const data = await response.json();
       console.log(data);
-      window.location.reload();
+      navigate(`/`);
     } catch (error) {
       console.error("Error:", error);
       // Handle error
@@ -354,7 +357,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Panjang */}
           <div className="mb-4">
-            <Label htmlFor="panjang" value="Length" />
+            <Label htmlFor="panjang" value="Length (Km)" />
             <TextInput
               id="panjang"
               name="panjang"
@@ -365,7 +368,7 @@ const RoadModalComponent = ({ formData, onClose }) => {
           </div>
           {/* Lebar */}
           <div className="mb-4">
-            <Label htmlFor="lebar" value="Wide" />
+            <Label htmlFor="lebar" value="Wide (M)" />
             <TextInput
               id="lebar"
               name="lebar"

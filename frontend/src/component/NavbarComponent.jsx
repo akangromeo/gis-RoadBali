@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Modal from "react-modal";
 import LoginComponent from "./LoginComponent";
-import RegisterComponent from "./RegisterComponent"; // Import RegisterComponent
+import RegisterComponent from "./RegisterComponent";
 
 Modal.setAppElement("#root");
 
 function NavbarComponent({ handleLogout }) {
-  const location = useLocation(); // Get current route
+  const location = useLocation();
   const [isLoginFormOpen, setIsLoginFormOpen] = useState(false);
   const [isRegisterFormOpen, setIsRegisterFormOpen] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -62,7 +62,6 @@ function NavbarComponent({ handleLogout }) {
       });
   }
 
-  // Determine the text based on the current route
   const getHeaderText = () => {
     if (location.pathname === "/") {
       return "Geographic Information System of Bali Roads";
@@ -80,7 +79,7 @@ function NavbarComponent({ handleLogout }) {
 
   return (
     <div>
-      <nav className="navbar fixed w-full bg-white border-gray-200 dark:bg-gray-900 mb-2 shadow-sm">
+      <nav className="navbar fixed w-full bg-white border-gray-200 dark:bg-gray-900  shadow-sm">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             className="flex items-center space-x-3 rtl:space-x-reverse"

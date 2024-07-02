@@ -1,15 +1,33 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Polyline, FeatureGroup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Polyline,
+  FeatureGroup,
+  useMap,
+} from "react-leaflet";
 import { useParams, useNavigate } from "react-router-dom";
 import { EditControl } from "react-leaflet-draw";
 import { decode, encode } from "polyline";
 import EditRoadComponent from "../component/EditRoadComponent";
+import { Link } from "react-router-dom";
+import L from "leaflet";
+
+const FitBounds = ({ bounds }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (bounds) {
+      map.fitBounds(bounds);
+    }
+  }, [map, bounds]);
+  return null;
+};
 
 const EditRoad = () => {
   const { roadId } = useParams();
   const [polyline, setPolyline] = useState([]);
-  const [lengthRoad, setLengthRoad] = useState("");
   const [roadData, setRoadData] = useState(null);
+  const [bounds, setBounds] = useState(null);
   const mapRef = useRef(null);
   const editableFG = useRef(null);
 
@@ -29,21 +47,27 @@ const EditRoad = () => {
         if (data.ruasjalan.paths) {
           const decodedPath = decodePolyline(data.ruasjalan.paths);
           setPolyline(decodedPath);
-          calculateLength(decodedPath);
+          setBounds(L.latLngBounds(decodedPath));
         }
       })
       .catch((error) => console.error("Error fetching road data:", error));
   }, [roadId]);
 
+  useEffect(() => {
+    if (mapRef.current && polyline.length > 0) {
+      const bounds = L.latLngBounds(polyline);
+      setBounds(bounds);
+      mapRef.current.fitBounds(bounds);
+    }
+  }, [polyline]);
+
   const handleFormSubmit = (updatedData) => {
     const token = localStorage.getItem("token");
     const updatedRoadData = {
       ...updatedData,
-
       paths: encode(polyline),
     };
 
-    console.log(updatedRoadData);
     fetch(`https://gisapis.manpits.xyz/api/ruasjalan/${roadId}`, {
       method: "PUT",
       headers: {
@@ -60,7 +84,7 @@ const EditRoad = () => {
       })
       .then((data) => {
         console.log("Road data updated successfully:", data);
-        navigate(`/`);
+        navigate(-1);
       })
       .catch((error) => {
         console.error("Error updating road data:", error);
@@ -78,22 +102,17 @@ const EditRoad = () => {
           .getLatLngs()
           .map((latLng) => [latLng.lat, latLng.lng]);
 
-        // Update polyline state
         setPolyline(editedLatLngs);
 
-        // Calculate road length for edited polyline
         const lengthNew = calculateLength(editedLatLngs);
-        console.log(lengthNew);
-        // Encode edited polyline
         const encodedPolyline = encode(editedLatLngs);
-        console.log(encodedPolyline);
 
-        // Update roadData with edited path and calculated length
         setRoadData((prevData) => ({
           ...prevData,
           panjang: lengthNew,
           paths: encodedPolyline,
         }));
+        setBounds(L.latLngBounds(editedLatLngs));
       }
     });
   };
@@ -101,12 +120,11 @@ const EditRoad = () => {
   const calculateLength = (latLngs) => {
     let length = 0;
     for (let i = 0; i < latLngs.length - 1; i++) {
-      // Convert each coordinate to L.LatLng object
       const latlng1 = L.latLng(latLngs[i][0], latLngs[i][1]);
       const latlng2 = L.latLng(latLngs[i + 1][0], latLngs[i + 1][1]);
       length += latlng1.distanceTo(latlng2);
     }
-    return (length / 1000).toFixed(2); // Return length in kilometers, formatted to 2 decimal places
+    return (length / 1000).toFixed(2);
   };
 
   if (!roadData) {
@@ -115,21 +133,16 @@ const EditRoad = () => {
 
   return (
     <div className="flex h-screen">
-      <div className="w-1/2 h-full">
+      <div className="w-1/2 h-full pt-[73px]">
         <MapContainer
-          center={[-8.4342, 115.1130646]}
-          zoom={10.2}
           style={{ height: "100%" }}
           whenCreated={(mapInstance) => {
             mapRef.current = mapInstance;
           }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <FeatureGroup
-            ref={(featureGroup) => {
-              editableFG.current = featureGroup;
-            }}
-          >
+          {bounds && <FitBounds bounds={bounds} />}
+          <FeatureGroup ref={editableFG}>
             <Polyline positions={polyline} color="blue" />
             <EditControl
               position="topleft"

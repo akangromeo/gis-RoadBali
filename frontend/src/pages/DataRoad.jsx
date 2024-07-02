@@ -12,12 +12,15 @@ export default function DataRoad() {
   const [selectedRoad, setSelectedRoad] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [searchTerm, setSearchTerm] = useState("");
 
   const navigate = useNavigate();
 
   const [desaDetails, setDesaDetails] = useState({});
   const [kecamatanDetails, setKecamatanDetails] = useState({});
   const [kabupatenDetails, setKabupatenDetails] = useState({});
+
+  let counter = 0;
 
   // Function to fetch desa, kecamatan, kabupaten details
   const fetchLocationDetails = (desaId) => {
@@ -29,7 +32,7 @@ export default function DataRoad() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Location Details:", data); // Log data for debugging
+        console.log("Location Details:", data);
         setDesaDetails((prevDetails) => ({
           ...prevDetails,
           [desaId]: data.desa,
@@ -42,6 +45,7 @@ export default function DataRoad() {
           ...prevDetails,
           [desaId]: data.kabupaten,
         }));
+        console.log(counter++);
       })
       .catch((error) =>
         console.error("Error fetching location details:", error)
@@ -61,7 +65,6 @@ export default function DataRoad() {
           console.log("Ruas Jalan Data:", data.ruasjalan);
           setRuasJalan(data.ruasjalan);
 
-          // Fetch location details for each ruas jalan
           data.ruasjalan.forEach((ruas) => {
             fetchLocationDetails(ruas.desa_id);
           });
@@ -215,12 +218,21 @@ export default function DataRoad() {
 
   const { kondisiData, eksistingData, jenisJalanData } = calculateStatistics();
 
+  const filteredRuasJalan = ruasJalan.filter((ruas) =>
+    ruas.nama_ruas.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // filter
+
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = ruasJalan.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredRuasJalan.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
-  const totalPages = Math.ceil(ruasJalan.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredRuasJalan.length / itemsPerPage);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -234,9 +246,13 @@ export default function DataRoad() {
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <>
-      <div className="grid grid-cols-3 gap-4 pt-20">
+      <div className="grid grid-cols-3 gap-4 pt-20 py-4">
         <div className="h-auto max-w-full rounded-lg">
           <h2 className="flex justify-center items-center px-4 py-2 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
             Road Condition
@@ -271,16 +287,55 @@ export default function DataRoad() {
           />
         </div>
       </div>
+
       <div className="container mx-auto ">
+        <div className="flex justify-end mx-auto">
+          <form className="flex items-center w-full max-w-xs">
+            <label
+              htmlFor="default-search"
+              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+            >
+              Search
+            </label>
+            <div className="relative w-full max-w-xs">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="default-search"
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search by Road Name"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </div>
+          </form>
+        </div>
         <div className="overflow-x-auto">
           <table className="table-auto w-full mt-4">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <th className="px-4 py-2">No</th>
                 <th className="px-4 py-2">Road Name</th>
                 <th className="px-4 py-2">Location</th>
                 <th className="px-4 py-2">Length (KM)</th>
                 <th className="px-4 py-2">Wide (M)</th>
-                <th className="px-4 py-2">Road Tyoe</th>
+                <th className="px-4 py-2">Road Type</th>
                 <th className="px-4 py-2">Material</th>
                 <th className="px-4 py-2">Condition</th>
                 <th className="px-4 py-2">Information</th>
@@ -293,6 +348,9 @@ export default function DataRoad() {
                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                   key={ruas.id}
                 >
+                  <td className="px-4 py-2 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {(currentPage - 1) * itemsPerPage + index++ + 1}
+                  </td>
                   <td className="px-4 py-2 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {ruas.nama_ruas}
                   </td>
@@ -366,7 +424,7 @@ export default function DataRoad() {
             <Link to="/">
               <button
                 type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white mb-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Go to Home
               </button>

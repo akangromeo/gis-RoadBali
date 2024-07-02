@@ -9,7 +9,7 @@ import { decode } from "polyline";
 import ReactDOMServer from "react-dom/server";
 
 const AddRoad = () => {
-  const [polyline, setPolyline] = useState("");
+  const [polyline, setPolyline] = useState([]);
   const [modalData, setModalData] = useState({ paths: "" });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [lengthRoad, setLengthRoad] = useState("");
@@ -60,13 +60,13 @@ const AddRoad = () => {
   };
 
   return (
-    <div>
-      <div style={{ height: "400px" }}>
+    <div className="pt-[73px] h-screen">
+      <div className="h-full">
         <MapContainer
           className="map-container"
           center={[-8.4342, 115.1130646]}
           zoom={10.2}
-          style={{ height: "100vh" }}
+          style={{ height: "100%" }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

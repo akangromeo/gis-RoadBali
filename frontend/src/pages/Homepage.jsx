@@ -222,7 +222,7 @@ export default function Homepage() {
 
   const tailwindColors = {
     "red-500": "#ef4444",
-    "green-500": "#22c55e",
+    "green-700": "#046C4E",
     "blue-500": "#3b82f6",
     black: "#000000",
   };
@@ -232,7 +232,7 @@ export default function Homepage() {
       case 1:
         return tailwindColors["red-500"];
       case 2:
-        return tailwindColors["green-500"];
+        return tailwindColors["green-700"];
       case 3:
         return tailwindColors["blue-500"];
       default:
@@ -256,13 +256,13 @@ export default function Homepage() {
   };
 
   return (
-    <div>
-      <div style={{ height: "400px" }}>
+    <div className="pt-[73px] h-screen">
+      <div className="h-full">
         <MapContainer
           className="map-container"
           center={[-8.4342, 115.1130646]}
           zoom={10.2}
-          style={{ height: "100vh" }}
+          style={{ height: "100%" }}
           whenReady={(mapInstance) => {
             console.log("Map instance ready:", mapInstance);
             mapRef.current = mapInstance.target;
@@ -282,63 +282,76 @@ export default function Homepage() {
               kabupatenDetails[ruas.desa_id]?.kabupaten || "Loading...";
             return (
               <Polyline key={ruas.id} positions={path} color={roadColor}>
-                <Popup>
-                  <div className="popup-container w-full">
-                    <div className="popup-content">
-                      <h5 className="mt-2 text-xl font-bold text-gray-900 dark:text-white">
-                        {ruas.nama_ruas}
-                      </h5>
-                      <p>
-                        <strong>Village :</strong> {desa}
-                      </p>
-                      <p>
-                        <strong>Subdistrict :</strong> {kecamatan}
-                      </p>
-                      <p>
-                        <strong>District :</strong> {kabupaten}
-                      </p>
-                      <p>
-                        <strong>Length :</strong> {ruas.panjang} Km
-                      </p>
-                      <p>
-                        <strong>Wide : </strong>
-                        {ruas.lebar} M
-                      </p>
-                      <p>
-                        <strong>Material : </strong>
-                        {getEksistingLabel(ruas.eksisting_id)}
-                      </p>
-                      <p>
-                        <strong>Condition : </strong>
-                        {getKondisiLabel(ruas.kondisi_id)}
-                      </p>
-                      <p>
-                        <strong>Road Type :</strong>{" "}
-                        {getJenisJalanLabel(ruas.jenisjalan_id)}
-                      </p>
-                      <p>
-                        <strong>Information : </strong>
-                        {ruas.keterangan}
-                      </p>
-                      <div className="flex justify-center items-center w-full">
-                        <button
-                          type="button"
-                          className="flex w-full justify-center text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
-                          onClick={() => handleEditRoadClick(ruas)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="flex w-full justify-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                          onClick={() => handleDeleteClick(ruas.id)}
-                        >
-                          <FaTrash />
-                        </button>
+                <div className="popup mt-[200px]">
+                  <Popup>
+                    <div className="popup-container w-full ">
+                      <div className="popup-content">
+                        <h5 className="mt-2 text-xl font-bold text-gray-900 dark:text-white">
+                          {ruas.nama_ruas}
+                        </h5>
+                        <div className="flex flex-col space-y-2 my-4">
+                          <div className="flex items-center">
+                            <strong className="w-24">Village</strong>
+                            <span>: {desa}</span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">Subdistrict</strong>
+                            <span>: {kecamatan}</span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">District</strong>
+                            <span>: {kabupaten}</span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">Length</strong>
+                            <span>: {ruas.panjang} Km</span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">Wide</strong>
+                            <span>: {ruas.lebar} M</span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">Material</strong>
+                            <span>
+                              : {getEksistingLabel(ruas.eksisting_id)}
+                            </span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">Condition</strong>
+                            <span>: {getKondisiLabel(ruas.kondisi_id)}</span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">Road Type</strong>
+                            <span>
+                              : {getJenisJalanLabel(ruas.jenisjalan_id)}
+                            </span>
+                          </div>
+                          <div className="flex items-center">
+                            <strong className="w-24">Information</strong>
+                            <span>: {ruas.keterangan}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-center items-center w-full">
+                          <button
+                            type="button"
+                            className="flex w-full justify-center text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
+                            onClick={() => handleEditRoadClick(ruas)}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="flex w-full justify-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            onClick={() => handleDeleteClick(ruas.id)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Popup>
+                  </Popup>
+                </div>
               </Polyline>
             );
           })}
@@ -382,7 +395,7 @@ export default function Homepage() {
               <span>Jalan Provinsi</span>
             </div>
             <div className="flex items-center">
-              <span className="w-4 h-4 bg-green-500 inline-block mr-2"></span>
+              <span className="w-4 h-4 bg-green-700 inline-block mr-2"></span>
               <span>Jalan Kabupaten</span>
             </div>
             <div className="flex items-center">
